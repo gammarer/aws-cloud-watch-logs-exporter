@@ -24,7 +24,7 @@ DATE_END=$3
 # S3 Bucket Name. ex) log-archive-7c08f157
 BUCKET_NAME=$4
 
-DESTINATION_PREFIX=$(echo $LOG_GROUP_NAME | tr '/' '-')
+DESTINATION_PREFIX=$(echo $LOG_GROUP_NAME | sed 's/^\///' | sed 's/\//-/g' | sed 's/\./--/g')
 
 echo "target log group = $LOG_GROUP_NAME"
 echo "date from $DATE_BEGIN to $DATE_END"
