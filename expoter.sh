@@ -37,7 +37,7 @@ while [[ $(( ${dt//\/} )) -le $(( ${DATE_END//\/} )) ]] ; do
   taskId=$(aws logs create-export-task \
       --log-group-name "${LOG_GROUP_NAME}" \
       --from $((`date -u +%s -d "${dt} 00:00:00"` * 1000)) \
-      --to $((`date -u +%s -d "${dt} 23:59:59"` * 1000)) \
+      --to $(((`date -u +%s -d "${dt} 23:59:59"` * 1000) + 999)) \
       --destination "${BUCKET_NAME}" \
       --destination-prefix "${DESTINATION_PREFIX}/`date -d ${dt} '+%Y'`/`date -d ${dt} '+%Y-%m'`/`date -d ${dt} '+%m-%d'`" \
       --query 'taskId' \
