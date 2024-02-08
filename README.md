@@ -24,6 +24,12 @@ Execute this script. \
 sh export.sh <CloudWatch-Logs-GroupName> <StartDate> <EndDate> <S3-BucketName>
 ```
 
+### Tips. Get LogGroup the Oldest date
+
+```sh
+date -d @$(($(aws logs describe-log-streams --log-group-name <LogGroupName> --query "min(logStreams[*].firstEventTimestamp)" --output json) / 1000)) +"%Y/%m/%d"
+```
+
 ## Example
 
 ```sh
