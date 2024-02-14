@@ -28,11 +28,12 @@ DESTINATION_PREFIX=$(echo $LOG_GROUP_NAME | sed 's/^\///' | sed 's/\//-/g' | sed
 
 echo "target log group = $LOG_GROUP_NAME"
 echo "date from $DATE_BEGIN to $DATE_END"
-echo "bucket"
+echo "archive bucket = $BUCKET_NAME"
+echo "archive destination prefix = $DESTINATION_PREFIX"
 
 dt=$DATE_BEGIN
 while [[ $(( ${dt//\/} )) -le $(( ${DATE_END//\/} )) ]] ; do
-  echo "target date = $dt"
+  echo "start export task date = $dt"
 
   taskId=$(aws logs create-export-task \
       --log-group-name "${LOG_GROUP_NAME}" \
