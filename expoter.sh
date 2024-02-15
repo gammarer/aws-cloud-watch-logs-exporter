@@ -5,13 +5,20 @@
 
 # check exist command aws.
 if ! type "aws" > /dev/null 2>&1; then
-    echo "aws command not installed."
-    return;
+  echo "aws command not installed."
+  exit 1;
 fi
 
+# check argument count
 if [ $# != 4 ]; then
-    echo "invalid argument count. ex) export.sh <CloudWatch-Logs-GroupName> <StartDate> <EndDate> <S3-BucketName>"
-    return;
+  echo "invalid argument count. ex) export.sh <CloudWatch-Logs-GroupName> <StartDate> <EndDate> <S3-BucketName>"
+  exit 1;
+fi
+
+# check exist export task running
+if [ $(aws logs describe-export-tasks --status-code "RUNNING" --query 'length(exportTasks[*].taskId)') != 0 ]; then
+  echo "Now running create-export-task exist. Please try again in a few minutes."
+  exit 1;
 fi
 
 export AWS_MAX_ATTEMPTS=10
