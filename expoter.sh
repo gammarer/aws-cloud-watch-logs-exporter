@@ -33,6 +33,11 @@ BUCKET_NAME=$4
 
 DESTINATION_PREFIX=$(echo $LOG_GROUP_NAME | sed 's/^\///' | sed 's/\//-/g' | sed 's/\./--/g')
 
+# check bucket exist
+if ! aws s3api head-bucket --bucket "$BUCKET_NAME" >/dev/null 2>&1; then
+  exit 1
+fi
+
 echo "target log group = $LOG_GROUP_NAME"
 echo "date from $DATE_BEGIN to $DATE_END"
 echo "archive bucket = $BUCKET_NAME"
